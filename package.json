@@ -1,0 +1,26 @@
+{
+  "name": "annodoc",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc -b && vite build",
+    "type-check": "vue-tsc -b",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "map.prototype.getorinsertcomputed": "^1.0.1",
+    "pdf-lib": "^1.17.1",
+    "pdfjs-dist": "^6.1.200",
+    "vue": "^3.5.13"
+  },
+  "devDependencies": {
+    "@types/node": "^26.0.1",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "@vue/tsconfig": "^0.9.1",
+    "typescript": "^6.0.3",
+    "vite": "^6.3.5",
+    "vue-tsc": "^3.3.5"
+  }
+}
