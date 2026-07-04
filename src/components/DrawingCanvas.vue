@@ -12,6 +12,8 @@
     />
     <div class="actions">
       <button @click="clear">Clear</button>
+      <button @click="fileInput?.click()">Load file</button>
+      <input ref="fileInput" type="file" accept=".svg,image/svg+xml" style="display:none" @change="onFileLoad" />
       <button @click="add">Add</button>
     </div>
   </div>
@@ -27,6 +29,7 @@ const LOGICAL_H = 350
 const PADDING = 6
 
 const canvas = ref<HTMLCanvasElement | null>(null)
+const fileInput = ref<HTMLInputElement | null>(null)
 let ctx: CanvasRenderingContext2D | null = null
 let drawing = false
 
@@ -90,6 +93,25 @@ function stopDraw() {
 
 function clear() {
   ctx!.clearRect(0, 0, LOGICAL_W, LOGICAL_H)
+}
+
+function onFileLoad(e: Event) {
+  const file = (e.target as HTMLInputElement).files?.[0]
+  if (!file) return
+  const url = URL.createObjectURL(file)
+  const img = new Image()
+  img.onload = () => {
+    clear()
+    const scaleX = LOGICAL_W / img.naturalWidth
+    const scaleY = LOGICAL_H / img.naturalHeight
+    const scale = Math.min(scaleX, scaleY, 1)
+    const w = img.naturalWidth * scale
+    const h = img.naturalHeight * scale
+    ctx!.drawImage(img, (LOGICAL_W - w) / 2, (LOGICAL_H - h) / 2, w, h)
+    URL.revokeObjectURL(url)
+    ;(e.target as HTMLInputElement).value = ''
+  }
+  img.src = url
 }
 
 function getBounds() {
